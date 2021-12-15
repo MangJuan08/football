@@ -1,0 +1,25 @@
+{
+    "teams": [
+      { "id": 1, "squad": "Arsenal", "P": 38, "W":26  , "L":9, "D":3, "F":79, "A":36, "Punti":87 },
+      { "id": 2, "squad": "Liverpool", "P": 38, "W":24   , "L":8, "D":6, "F":67, "A":30, "Punti":80 },
+      { "id": 3, "squad": "Manchester_U", "P": 38, "W":24, "L":5, "D":9, "F":87, "A":45, "Punti":77 },
+      { "id": 4, "squad": "Newcastle", "P": 38, "W":24, "L":8, "D":9, "F":74, "A":52, "Punti":71 },
+      { "id": 5, "squad": "Leeds", "P": 38, "W":21, "L":12, "D":8, "F":53, "A":37, "Punti":66 },
+      { "id": 6, "squad": "Chelsea", "P": 38, "W":18, "L":13, "D":8, "F":66, "A":38, "Punti":64 },
+      { "id": 7, "squad": "West_Ham", "P": 38, "W":17, "L":8, "D":15, "F":48, "A":57, "Punti":53 },
+      { "id": 8, "squad": "Aston_Villa", "P": 38, "W":15, "L":14, "D":12, "F":46, "A":47, "Punti":50 },
+      { "id": 9, "squad": "TottenHam", "P": 38, "W":12, "L":8, "D":16, "F":49, "A":53, "Punti":50 },
+      { "id": 10, "squad": "Blackburn", "P": 38, "W":14, "L":10, "D":16, "F":55, "A":51, "Punti":46 },
+      { "id": 11, "squad": "Southampton", "P": 38, "W":12, "L":9, "D":17, "F":46, "A":54, "Punti":45 },
+      { "id": 12, "squad": "Middlesbrough", "P": 38, "W":12, "L":9, "D":17, "F":35, "A":47, "Punti":45 },
+      { "id": 13, "squad": "Fulham", "P": 38, "W":10, "L":14, "D":14, "F":36, "A":44, "Punti":44 },
+      { "id": 14, "squad": "Charlton", "P": 38, "W":10, "L":14, "D":14, "F":38, "A":49, "Punti":44 },
+      { "id": 15, "squad": "Everton", "P": 38, "W":11, "L":10, "D":17, "F":45, "A":57, "Punti":43 },
+      { "id": 16, "squad": "Bolton", "P": 38, "W":9, "L":13, "D":16, "F":44, "A":62, "Punti":40 },
+      { "id": 17, "squad": "Sunderland", "P": 38, "W":10, "L":10, "D":18, "F":29, "A":51, "Punti":40 },
+      { "id": 18, "squad": "Ipswich", "P": 38, "W":9, "L":9, "D":20, "F":41, "A":64, "Punti":36 },
+      { "id": 19, "squad": "Derby", "P": 38, "W":8, "L":6, "D":24, "F":33, "A":63, "Punti":30 },
+      { "id": 20, "squad": "Leicester", "P": 38, "W":5, "L":13, "D":20, "F":30, "A":64, "Punti":28 }
+    ]
+ 
+  }
