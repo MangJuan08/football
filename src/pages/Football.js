@@ -57,18 +57,26 @@ const Football = () => {
   };
 
   const showRisultato = (status) => {
-      console.log(status)
-    let risultatiDifferenza = squadTable.map((item) => item.F - item.A);
-    console.log(risultatiDifferenza);
-
+ 
+    //differenze tra Punti Segnati F e Punti Subiti
+    let risultatiDifferenza = squadTable.map((item) => item.F - item.A); 
+  
+    //prendere il risultato minore
     let risultatoMinore = risultatiDifferenza.reduce((prev, curr) => {
       return prev < curr ? prev : curr;
     });
+
+    //prendere l'indice del risultato minore
     let ids = risultatiDifferenza.indexOf(risultatoMinore);
+
+    //ids+1 perché nell'array è sempre +1;
+    //per esempio il risultato è 19, nella tabella è sempre +1
     let idP = ids + 1;
 
+    //cerca la squadra che ha l'idP
     let getSquadra = squadTable.find((item) => item.id === idP);
 
+    //aggiorna i risultati
     setRisultati({
       ...risultati,
       id: idP,
@@ -86,11 +94,10 @@ const Football = () => {
   return (
     <React.Fragment>
       <div className="row" style={{ marginTop: "30px" }}>
-     
         <div className="col-md-12">
           <Paper sx={{ width: "100%" }}>
             <TableContainer sx={{ maxHeight: 740 }}>
-              <Table>
+              <Table stickyHeader>
                 <TableHead>
                   <TableRow>
                     {columns.map((item) => {
@@ -149,7 +156,7 @@ const Football = () => {
               </Table>
             </TableContainer>
             <TablePagination
-              rowsPerPageOptions={[5, 10, 20]}
+              rowsPerPageOptions={[5, 10, 20, 35]}
               component="div"
               count={pageCount}
               rowsPerPage={rowsPerPage}
@@ -162,17 +169,30 @@ const Football = () => {
       </div>
       <div className="row" style={{ marginTop: "30px" }}>
         <div className="col-md-2">
-        <button className="btn btn-primary btn-lg w-100" onClick={()=>showRisultato(!risultati.status)}>
-           {!risultati.status ? 'show' : 'nascondi'}
+          <button
+            className="btn btn-outline-primary btn-lg w-100"
+            onClick={() => showRisultato(!risultati.status)}
+          >
+            {!risultati.status ? "SHOW" : "HIDE"}
           </button>
+         
+            <Link to="/" className="nav-link">
+            Home
+          </Link>
         </div>
-        <div className="col-md-8">
+        <div className="col-md-10">
           {risultati.status ? (
             <div className="card">
               <div className="card-body">
-                <h5 className="card-title">Squadra: <b>{risultati.squad}</b></h5>
-                <h6 className="card-subtitle mb-2 text-muted">Risultato Minore: {risultati.ris}</h6>
-                <p className="card-subtitle mb-2 text-muted">Id: {risultati.id}</p>
+                <h5 className="card-title">
+                  Squadra: <b>{risultati.squad}</b>
+                </h5>
+                <h6 className="card-subtitle mb-2 text-muted">
+                  Risultato Minore: {risultati.ris}
+                </h6>
+                <p className="card-subtitle mb-2 text-muted">
+                  Id: {risultati.id}
+                </p>
               </div>
             </div>
           ) : (
@@ -180,6 +200,7 @@ const Football = () => {
           )}
         </div>
       </div>
+      <br></br><br></br><br></br>
     </React.Fragment>
   );
 };

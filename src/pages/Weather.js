@@ -1,23 +1,165 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableRow from "@mui/material/TableRow";
+import TableHead from "@mui/material/TableHead";
+import Paper from "@mui/material/Paper";
+import TablePagination from "@mui/material/TablePagination";
+import axios from "axios";
+
+const columns = [
+  { field: "dy", headerName: "Dy", width: 70 },
+  { field: "mxT", headerName: "MxT", width: 130 },
+  { field: "mnT", headerName: "MnT", width: 130 },
+];
+
+const url = "http://localhost:3000/weather";
 
 const Weather = () => {
-    return (
-        <div className='row' style={{marginTop:'30px'}}>
-            <div className="row" style={{ marginTop: "30px" }}>
-        <div className="col-md-2"></div>
-        <div className="col-md-8"></div>
+  const [weatherTable, setWeatherTable] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [pageCount, setPageCount] = useState(0);
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
 
+  const [risultati, setRisultati] = useState({
+    id: 0,
+    ris: 0,
+    giorno: 0,
+    status: false,
+  });
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
+  const fetch = () => {
+    axios
+      .get(url)
+      .then((res) => {
+        setWeatherTable(res.data);
+        setPageCount(res.data.length);
+      })
+      .catch((err) => console.group(err));
+  };
+
+  const showRisultato = (status) => {
+    //remove special character "*" in the array
+    //remove the value that contains a special character
+weatherTable.forEach((el, index, arr) => {
+      el.toString().replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
+    });
+    console.log(weatherTable)
+    /*const getDifferenza = (max,min) =>{
+        console.log(parseInt(max));
+        parseInt(min)
+        return max-min;
+    }
+    let op = res.map((value) => {return value } )
+
+    
+  console.log(op)*/
+  console.log(weatherTable.pop());
+    setRisultati({ ...risultati, status: status });
+  };
+
+  useEffect(() => {
+    fetch();
+  }, []);
+  return (
+    <React.Fragment>
+      <div className="row" style={{ marginTop: "30px" }}>
+        <div className="row" style={{ marginTop: "30px" }}>
+          <div className="col-md-12">
+            <Paper sx={{ width: "100%" }}>
+              <TableContainer sx={{ maxHeight: 740 }}>
+                <Table stickyHeader>
+                  <TableHead>
+                    <TableRow>
+                      {columns.map((item) => {
+                        return (
+                          <TableCell
+                            key={item.id}
+                            style={{ fontWeight: "Bold" }}
+                          >
+                            {item.headerName.toUpperCase()}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {weatherTable
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((row, index) => {
+                        return (
+                          <TableRow
+                            key={row.id}
+                            style={
+                              index % 2
+                                ? { background: "#38abed" }
+                                : { background: "white" }
+                            }
+                          >
+                            <TableCell style={{ fontWeight: "Bold" }}>
+                              {row.dy}
+                            </TableCell>
+                            <TableCell style={{ fontWeight: "Bold" }}>
+                              {row.MxT}
+                            </TableCell>
+                            <TableCell style={{ fontWeight: "Bold" }}>
+                              {row.MnT}
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 20]}
+                component="div"
+                count={pageCount}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </Paper>
+          </div>
         </div>
-            <p>Weather</p>
-            <Link to="/" className="nav-link">
+      </div>
+      <div className="row" style={{ marginTop: "30px" }}>
+        <div className="col-md-2">
+          <button
+            className="btn btn-outline-primary btn-lg w-100"
+            onClick={() => showRisultato(!risultati.status)}
+          >
+            {!risultati.status ? "SHOW" : "HIDE"}
+          </button>
+
+          <Link to="/" className="nav-link">
             Home
           </Link>
         </div>
-    )
-}
+        <div className="col-md-10"></div>
+      </div>
+      <br></br>
+      <br></br>
+      <br></br>
+    </React.Fragment>
+  );
+};
 
-export default Weather
+export default Weather;
 
 /*
 
