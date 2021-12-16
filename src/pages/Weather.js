@@ -63,7 +63,8 @@ const Weather = () => {
 
   useEffect(() => {
     fetch();
-  }, []);
+    console.log(risultati)
+  }, [risultati]);
   return (
     <React.Fragment>
       <div className="row" style={{ marginTop: "30px" }}>
