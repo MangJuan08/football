@@ -11,9 +11,9 @@ import TablePagination from "@mui/material/TablePagination";
 import axios from "axios";
 
 const columns = [
-  { field: "dy", headerName: "Dy", width: 70 },
-  { field: "mxT", headerName: "MxT", width: 130 },
-  { field: "mnT", headerName: "MnT", width: 130 },
+  { field: "dy", headerName: "Giorno", width: 70 },
+  { field: "mxT", headerName: "Max Temperatura", width: 130 },
+  { field: "mnT", headerName: "Min Temperatura", width: 130 },
 ];
 
 const url = "http://localhost:3000/weather";
@@ -51,20 +51,13 @@ const Weather = () => {
   const showRisultato = (status) => {
     //remove special character "*" in the array
     //remove the value that contains a special character
-weatherTable.forEach((el, index, arr) => {
-      el.toString().replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
-    });
-    console.log(weatherTable)
-    /*const getDifferenza = (max,min) =>{
-        console.log(parseInt(max));
-        parseInt(min)
-        return max-min;
-    }
-    let op = res.map((value) => {return value } )
+    console.log(weatherTable);
+    let maxT = weatherTable.map((el, index) => parseInt(el.MxT));
+    let minT = weatherTable.map((el, index) => parseInt(el.MnT));
 
-    
-  console.log(op)*/
-  console.log(weatherTable.pop());
+    //differenza tra MaxTemperatura e MinTemperatura
+    let differenza = maxT.map((it, i) => it - minT[i]);
+    console.log(differenza);
     setRisultati({ ...risultati, status: status });
   };
 
@@ -74,69 +67,62 @@ weatherTable.forEach((el, index, arr) => {
   return (
     <React.Fragment>
       <div className="row" style={{ marginTop: "30px" }}>
-        <div className="row" style={{ marginTop: "30px" }}>
-          <div className="col-md-12">
-            <Paper sx={{ width: "100%" }}>
-              <TableContainer sx={{ maxHeight: 740 }}>
-                <Table stickyHeader>
-                  <TableHead>
-                    <TableRow>
-                      {columns.map((item) => {
-                        return (
-                          <TableCell
-                            key={item.id}
-                            style={{ fontWeight: "Bold" }}
-                          >
-                            {item.headerName.toUpperCase()}
+        <div className="col-md-12">
+          <Paper sx={{ width: "100%" }}>
+            <TableContainer sx={{ maxHeight: 740 }}>
+              <Table stickyHeader>
+                <TableHead>
+                  <TableRow>
+                    {columns.map((item) => {
+                      return (
+                        <TableCell key={item.id} style={{ fontWeight: "Bold" }}>
+                          {item.headerName.toUpperCase()}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {weatherTable
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row, index) => {
+                      return (
+                        <TableRow
+                          key={row.id}
+                          style={
+                            index % 2
+                              ? { background: "#38abed" }
+                              : { background: "white" }
+                          }
+                        >
+                          <TableCell style={{ fontWeight: "Bold" }}>
+                            {row.dy}
                           </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {weatherTable
-                      .slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
-                      )
-                      .map((row, index) => {
-                        return (
-                          <TableRow
-                            key={row.id}
-                            style={
-                              index % 2
-                                ? { background: "#38abed" }
-                                : { background: "white" }
-                            }
-                          >
-                            <TableCell style={{ fontWeight: "Bold" }}>
-                              {row.dy}
-                            </TableCell>
-                            <TableCell style={{ fontWeight: "Bold" }}>
-                              {row.MxT}
-                            </TableCell>
-                            <TableCell style={{ fontWeight: "Bold" }}>
-                              {row.MnT}
-                            </TableCell>
-                          </TableRow>
-                        );
-                      })}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 20]}
-                component="div"
-                count={pageCount}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </Paper>
-          </div>
+                          <TableCell style={{ fontWeight: "Bold" }}>
+                            {row.MxT}  °
+                          </TableCell>
+                          <TableCell style={{ fontWeight: "Bold" }}>
+                            {row.MnT} °
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 20]}
+              component="div"
+              count={pageCount}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Paper>
         </div>
       </div>
+
       <div className="row" style={{ marginTop: "30px" }}>
         <div className="col-md-2">
           <button
