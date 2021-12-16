@@ -28,7 +28,6 @@ const Weather = () => {
   };
 
   const [risultati, setRisultati] = useState({
-    id: 0,
     ris: 0,
     giorno: 0,
     status: false,
@@ -57,13 +56,19 @@ const Weather = () => {
 
     //differenza tra MaxTemperatura e MinTemperatura
     let differenza = maxT.map((it, i) => it - minT[i]);
-    console.log(differenza);
-    setRisultati({ ...risultati, status: status });
+
+    //prendere il risultato minore
+    let risultatoMinore = differenza.reduce((prev, curr) => {
+      return prev < curr ? prev : curr;
+    });
+
+    console.log(risultatoMinore);
+    setRisultati({ ...risultati, ris: risultatoMinore, status: status });
   };
 
   useEffect(() => {
     fetch();
-    console.log(risultati)
+    console.log(risultati);
   }, [risultati]);
   return (
     <React.Fragment>
@@ -100,7 +105,7 @@ const Weather = () => {
                             {row.dy}
                           </TableCell>
                           <TableCell style={{ fontWeight: "Bold" }}>
-                            {row.MxT}  °
+                            {row.MxT} °
                           </TableCell>
                           <TableCell style={{ fontWeight: "Bold" }}>
                             {row.MnT} °

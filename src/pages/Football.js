@@ -10,6 +10,7 @@ import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { TableFooter } from "@mui/material";
 
 const columns = [
   { field: "id", headerName: "id", width: 70 },
@@ -155,8 +156,8 @@ const Football = () => {
                 </TableBody>
               </Table>
             </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 20, 35]}
+              <TablePagination
+              rowsPerPageOptions={[5, 10, 30]}
               component="div"
               count={pageCount}
               rowsPerPage={rowsPerPage}
