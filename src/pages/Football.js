@@ -10,7 +10,6 @@ import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { TableFooter } from "@mui/material";
 
 const columns = [
   { field: "id", headerName: "id", width: 70 },
@@ -22,6 +21,7 @@ const columns = [
   { field: "F", headerName: "F", width: 130 },
   { field: "A", headerName: "A", width: 130 },
   { field: "Punti", headerName: "Punti", width: 130 },
+  { field: "Delete", headerName: "Delete", width: 130 }
 ];
 
 const url = "http://localhost:3000/teams";
@@ -31,13 +31,14 @@ const Football = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [pageCount, setPageCount] = useState(0);
-
+  const [team, setTeam] = useState("");
   const [risultati, setRisultati] = useState({
     id: 0,
     ris: 0,
     squad: "",
     status: false,
   });
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -47,21 +48,10 @@ const Football = () => {
     setPage(0);
   };
 
-  const fetch = () => {
-    axios
-      .get(url)
-      .then((res) => {
-        setSquadTable(res.data);
-        setPageCount(res.data.length);
-      })
-      .catch((err) => console.group(err));
-  };
-
   const showRisultato = (status) => {
- 
     //differenze tra Punti Segnati F e Punti Subiti
-    let risultatiDifferenza = squadTable.map((item) => item.F - item.A); 
-  
+    let risultatiDifferenza = squadTable.map((item) => item.F - item.A);
+
     //prendere il risultato minore
     let risultatoMinore = risultatiDifferenza.reduce((prev, curr) => {
       return prev < curr ? prev : curr;
@@ -87,6 +77,50 @@ const Football = () => {
     });
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setTeam(value);
+  };
+
+  const addTeam = (e) => {
+    e.preventDefault();
+    axios
+      .post(url, {
+        id: new Date(Date.now()).getTime().toString(),
+        squad: team,
+      })
+      .then((res) => {
+        console.log(res);
+        fetch();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const deleteRow = (id) => {
+    axios
+    .delete(url+"/"+id
+   )
+    .then((res) => {
+      console.log(res);
+      fetch();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  };
+
+  const fetch = async () => {
+    axios
+      .get(url)
+      .then((res) => {
+        setSquadTable(res.data);
+        setPageCount(res.data.length);
+        console.log(res)
+      })
+      .catch((err) => console.group(err));
+  }
   useEffect(() => {
     fetch();
     console.log(risultati);
@@ -96,6 +130,8 @@ const Football = () => {
     <React.Fragment>
       <div className="row" style={{ marginTop: "30px" }}>
         <div className="col-md-12">
+          <h1 style={{ textAlign: "center" }}>TEAM TABLE</h1>
+          <br></br>
           <Paper sx={{ width: "100%" }}>
             <TableContainer sx={{ maxHeight: 740 }}>
               <Table stickyHeader>
@@ -150,13 +186,16 @@ const Football = () => {
                           <TableCell style={{ fontWeight: "Bold" }}>
                             {row.Punti}
                           </TableCell>
+                          <TableCell style={{ fontWeight: "Bold" }}>
+                            <button className='btn btn-danger' onClick={()=> deleteRow(row.id)}>danger</button>
+                          </TableCell>
                         </TableRow>
                       );
                     })}
                 </TableBody>
               </Table>
             </TableContainer>
-              <TablePagination
+            <TablePagination
               rowsPerPageOptions={[5, 10, 30]}
               component="div"
               count={pageCount}
@@ -176,8 +215,8 @@ const Football = () => {
           >
             {!risultati.status ? "SHOW" : "HIDE"}
           </button>
-         
-            <Link to="/" className="nav-link">
+
+          <Link to="/" className="nav-link">
             Home
           </Link>
         </div>
@@ -201,7 +240,27 @@ const Football = () => {
           )}
         </div>
       </div>
-      <br></br><br></br><br></br>
+      <div className="row" style={{ marginTop: "30px" }}>
+        <div className="col-md-2">
+          <form onSubmit={addTeam}>
+            <div className="mb-3">
+              <textarea
+                className="form-control"
+                rows="3"
+                name="team"
+                onChange={handleChange}
+              ></textarea>
+              <br></br>
+              <button type="submit" className="btn btn-primary">
+                ADD TEAM INPUT EXAMPLE
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <br></br>
+      <br></br>
+      <br></br>
     </React.Fragment>
   );
 };

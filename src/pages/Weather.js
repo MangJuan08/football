@@ -62,7 +62,7 @@ const Weather = () => {
       return prev < curr ? prev : curr;
     });
 
-    console.log(risultatoMinore);
+    console.log('risultato minore',risultatoMinore);
     setRisultati({ ...risultati, ris: risultatoMinore, status: status });
   };
 
@@ -142,7 +142,25 @@ const Weather = () => {
             Home
           </Link>
         </div>
-        <div className="col-md-10"></div>
+        <div className="col-md-10">
+          {risultati.status ? (
+            <div className="card">
+              <div className="card-body">
+                <h5 className="card-title">
+                  Giorno: <b>{risultati.giorno}</b>
+                </h5>
+                <h6 className="card-subtitle mb-2 text-muted">
+                  Risultato Minore: {risultati.ris}
+                </h6>
+                <p className="card-subtitle mb-2 text-muted">
+                  Id: {risultati.id}
+                </p>
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
       </div>
       <br></br>
       <br></br>
