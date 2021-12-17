@@ -216,9 +216,7 @@ const Football = () => {
             {!risultati.status ? "SHOW" : "HIDE"}
           </button>
 
-          <Link to="/" className="nav-link">
-            Home
-          </Link>
+          
         </div>
         <div className="col-md-10">
           {risultati.status ? (
@@ -256,6 +254,9 @@ const Football = () => {
               </button>
             </div>
           </form>
+          <Link to="/" className="nav-link">
+            Home
+          </Link>
         </div>
       </div>
       <br></br>
