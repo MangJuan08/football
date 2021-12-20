@@ -9,6 +9,7 @@ import TableHead from "@mui/material/TableHead";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import { Link } from "react-router-dom";
+import "./table.css";
 import axios from "axios";
 
 const columns = [
@@ -21,7 +22,7 @@ const columns = [
   { field: "F", headerName: "F", width: 130 },
   { field: "A", headerName: "A", width: 130 },
   { field: "Punti", headerName: "Punti", width: 130 },
-  { field: "Delete", headerName: "Delete", width: 130 }
+  { field: "Delete", headerName: "Delete", width: 130 },
 ];
 
 const url = "http://localhost:3000/teams";
@@ -86,7 +87,7 @@ const Football = () => {
     e.preventDefault();
     axios
       .post(url, {
-        id: new Date(Date.now()).getTime().toString(),
+        id: squadTable.id + 1,
         squad: team,
       })
       .then((res) => {
@@ -100,15 +101,18 @@ const Football = () => {
 
   const deleteRow = (id) => {
     axios
-    .delete(url+"/"+id
-   )
-    .then((res) => {
-      console.log(res);
-      fetch();
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+      .delete(url + "/" + id)
+      .then((res) => {
+        console.log(res);
+        fetch();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const showTeam = (team) => {
+    console.log(team);
   };
 
   const fetch = async () => {
@@ -117,10 +121,10 @@ const Football = () => {
       .then((res) => {
         setSquadTable(res.data);
         setPageCount(res.data.length);
-        console.log(res)
+        console.log(res);
       })
       .catch((err) => console.group(err));
-  }
+  };
   useEffect(() => {
     fetch();
     console.log(risultati);
@@ -162,7 +166,11 @@ const Football = () => {
                           <TableCell style={{ fontWeight: "Bold" }}>
                             {row.id}
                           </TableCell>
-                          <TableCell style={{ fontWeight: "Bold" }}>
+                          <TableCell
+                            style={{ fontWeight: "Bold" }}
+                            className="row-pointer"
+                            onClick={() => showTeam(row)}
+                          >
                             {row.squad}
                           </TableCell>
                           <TableCell style={{ fontWeight: "Bold" }}>
@@ -187,7 +195,10 @@ const Football = () => {
                             {row.Punti}
                           </TableCell>
                           <TableCell style={{ fontWeight: "Bold" }}>
-                            <button className='btn btn-danger' onClick={()=> deleteRow(row.id)}>danger</button>
+                            <button
+                              className="btn-close"
+                              onClick={() => deleteRow(row.id)}
+                            ></button>
                           </TableCell>
                         </TableRow>
                       );
@@ -215,8 +226,6 @@ const Football = () => {
           >
             {!risultati.status ? "SHOW" : "HIDE"}
           </button>
-
-          
         </div>
         <div className="col-md-10">
           {risultati.status ? (
