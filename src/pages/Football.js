@@ -1,16 +1,10 @@
 import React, { useEffect, useState } from "react";
-
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableRow from "@mui/material/TableRow";
-import TableHead from "@mui/material/TableHead";
-import Paper from "@mui/material/Paper";
-import TablePagination from "@mui/material/TablePagination";
+import axios from "axios";
+import FormAddTeam from "../components/Forms/FormAddTeam";
+import CardResult from "../components/Cards/CardResult";
+import TableTeams from "../components/Tables/TableTeams";
 import { Link } from "react-router-dom";
 import "./table.css";
-import axios from "axios";
 
 const columns = [
   { field: "id", headerName: "id", width: 70 },
@@ -123,7 +117,7 @@ const Football = () => {
         setPageCount(res.data.length);
         console.log(res);
       })
-      .catch((err) => console.group(err));
+      .catch((err) => console.log(err));
   };
   useEffect(() => {
     fetch();
@@ -136,7 +130,82 @@ const Football = () => {
         <div className="col-md-12">
           <h1 style={{ textAlign: "center" }}>TEAM TABLE</h1>
           <br></br>
-          <Paper sx={{ width: "100%" }}>
+          <TableTeams
+            columns={columns}
+            page={page}
+            showTeam={showTeam}
+            rowsPerPage={rowsPerPage}
+            squadTable={squadTable}
+            deleteRow={deleteRow}
+            handleChangePage={handleChangePage}
+            handleChangeRowsPerPage={handleChangeRowsPerPage}
+            pageCount={pageCount}
+          ></TableTeams>
+        </div>
+      </div>
+      <div className="row" style={{ marginTop: "30px" }}>
+        <div className="col-md-2">
+          <button
+            className="btn btn-outline-primary btn-lg w-100"
+            onClick={() => showRisultato(!risultati.status)}
+          >
+            {!risultati.status ? "SHOW" : "HIDE"}
+          </button>
+        </div>
+        <div className="col-md-10">
+          {risultati.status ? <CardResult risultati={risultati} /> : ""}
+        </div>
+      </div>
+      <div className="row" style={{ marginTop: "30px" }}>
+        <div className="col-md-2">
+          <FormAddTeam
+            handleChange={handleChange}
+            addTeam={addTeam}
+          ></FormAddTeam>
+          <Link to="/" className="nav-link">
+            Home
+          </Link>
+        </div>
+      </div>
+      <br></br>
+      <br></br>
+      <br></br>
+    </React.Fragment>
+  );
+};
+
+export default Football;
+
+/*
+  <form onSubmit={addTeam}>
+            <div className="mb-3">
+              <textarea
+                className="form-control"
+                rows="3"
+                name="team"
+                onChange={handleChange}
+              ></textarea>
+              <br></br>
+              <button type="submit" className="btn btn-primary">
+                ADD TEAM INPUT EXAMPLE
+              </button>
+            </div>
+          </form>
+
+          <div className="card">
+              <div className="card-body">
+                <h5 className="card-title">
+                  Squadra: <b>{risultati.squad}</b>
+                </h5>
+                <h6 className="card-subtitle mb-2 text-muted">
+                  Risultato Minore: {risultati.ris}
+                </h6>
+                <p className="card-subtitle mb-2 text-muted">
+                  Id: {risultati.id}
+                </p>
+              </div>
+            </div>
+ <Paper sx={{ width: "100%" }}>
             <TableContainer sx={{ maxHeight: 740 }}>
               <Table stickyHeader>
                 <TableHead>
@@ -216,70 +285,6 @@ const Football = () => {
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
           </Paper>
-        </div>
-      </div>
-      <div className="row" style={{ marginTop: "30px" }}>
-        <div className="col-md-2">
-          <button
-            className="btn btn-outline-primary btn-lg w-100"
-            onClick={() => showRisultato(!risultati.status)}
-          >
-            {!risultati.status ? "SHOW" : "HIDE"}
-          </button>
-        </div>
-        <div className="col-md-10">
-          {risultati.status ? (
-            <div className="card">
-              <div className="card-body">
-                <h5 className="card-title">
-                  Squadra: <b>{risultati.squad}</b>
-                </h5>
-                <h6 className="card-subtitle mb-2 text-muted">
-                  Risultato Minore: {risultati.ris}
-                </h6>
-                <p className="card-subtitle mb-2 text-muted">
-                  Id: {risultati.id}
-                </p>
-              </div>
-            </div>
-          ) : (
-            ""
-          )}
-        </div>
-      </div>
-      <div className="row" style={{ marginTop: "30px" }}>
-        <div className="col-md-2">
-          <form onSubmit={addTeam}>
-            <div className="mb-3">
-              <textarea
-                className="form-control"
-                rows="3"
-                name="team"
-                onChange={handleChange}
-              ></textarea>
-              <br></br>
-              <button type="submit" className="btn btn-primary">
-                ADD TEAM INPUT EXAMPLE
-              </button>
-            </div>
-          </form>
-          <Link to="/" className="nav-link">
-            Home
-          </Link>
-        </div>
-      </div>
-      <br></br>
-      <br></br>
-      <br></br>
-    </React.Fragment>
-  );
-};
-
-export default Football;
-
-/*
-
-
 * Lega football
 Il file football.dat contiene i risultati della premier league inglese. Le colonne con 
 etichetta "F" e "A" contengono il numero totale di goal segnati e subiti da ogni squadra
