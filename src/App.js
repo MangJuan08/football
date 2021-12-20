@@ -1,12 +1,14 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Appbar from "./components/Appbar/Appbar";
 import Loading from "./components/Loading";
 const Football = React.lazy(() => import("./pages/Football"));
 const Homepage = React.lazy(() => import("./pages/Homepage"));
 const Weather = React.lazy(() => import("./pages/Weather"));
 
 function App() {
-  return (
+  return (<React.Fragment>
+    <Appbar/>
     <div className="container">
       <BrowserRouter>
         <React.Suspense fallback={<Loading />}>
@@ -18,6 +20,7 @@ function App() {
         </React.Suspense>
       </BrowserRouter>
     </div>
+    </React.Fragment>
   );
 }
 

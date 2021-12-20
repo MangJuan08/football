@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import FormAddTeam from "../components/Forms/FormAddTeam";
 import CardResult from "../components/Cards/CardResult";
 import TableTeams from "../components/Tables/TableTeams";
-import { Link } from "react-router-dom";
 import "./table.css";
+import DialogAddTeam from "../components/Dialog/DialogAddTeam";
 
 const columns = [
   { field: "id", headerName: "id", width: 70 },
@@ -26,7 +25,17 @@ const Football = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [pageCount, setPageCount] = useState(0);
-  const [team, setTeam] = useState("");
+  const [team, setTeam] = useState({
+    squad:'',
+    P:0,
+    W:0,
+    L:0,
+    D:0,
+    F:0,
+    Punti:0,
+    A:0
+  });
+  const [open, isShow] = useState(false);
   const [risultati, setRisultati] = useState({
     id: 0,
     ris: 0,
@@ -74,15 +83,25 @@ const Football = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setTeam(value);
+    setTeam({...team, [name]:value});
+    console.log(team)
   };
 
   const addTeam = (e) => {
     e.preventDefault();
-    axios
+    console.log(team)
+    if (team.squad && team.P && team.W) {
+      axios
       .post(url, {
-        id: squadTable.id + 1,
-        squad: team,
+      id:squadTable.id+1,
+      squad:team.squad,
+      P:team.P,
+      W:team.W,
+      L:team.L,
+      D:team.D,
+      F:team.F,
+      A:team.A,
+      Punti:team.Punti
       })
       .then((res) => {
         console.log(res);
@@ -91,6 +110,12 @@ const Football = () => {
       .catch((err) => {
         console.log(err);
       });
+
+    }
+    else {
+      alert("failed adding team");
+    }
+   
   };
 
   const deleteRow = (id) => {
@@ -109,6 +134,14 @@ const Football = () => {
     console.log(team);
   };
 
+  const closeDialog = (stat) => {
+    isShow(false);
+  };
+
+  const showDialog = (stat) => {
+    isShow(true);
+  };
+
   const fetch = async () => {
     axios
       .get(url)
@@ -119,6 +152,7 @@ const Football = () => {
       })
       .catch((err) => console.log(err));
   };
+
   useEffect(() => {
     fetch();
     console.log(risultati);
@@ -126,7 +160,7 @@ const Football = () => {
 
   return (
     <React.Fragment>
-      <div className="row" style={{ marginTop: "30px" }}>
+      <div className="row" style={{ marginTop: "20px" }}>
         <div className="col-md-12">
           <h1 style={{ textAlign: "center" }}>TEAM TABLE</h1>
           <br></br>
@@ -158,13 +192,15 @@ const Football = () => {
       </div>
       <div className="row" style={{ marginTop: "30px" }}>
         <div className="col-md-2">
-          <FormAddTeam
-            handleChange={handleChange}
-            addTeam={addTeam}
-          ></FormAddTeam>
-          <Link to="/" className="nav-link">
-            Home
-          </Link>
+          <button type="button" onClick={showDialog}>
+            view add team
+          </button>
+
+          {open ? (
+            <DialogAddTeam handleChange={handleChange} addTeam={addTeam} closeDialog={closeDialog} open={open} team={team}/>
+          ) : (
+            ""
+          )}
         </div>
       </div>
       <br></br>
@@ -177,114 +213,6 @@ const Football = () => {
 export default Football;
 
 /*
-  <form onSubmit={addTeam}>
-            <div className="mb-3">
-              <textarea
-                className="form-control"
-                rows="3"
-                name="team"
-                onChange={handleChange}
-              ></textarea>
-              <br></br>
-              <button type="submit" className="btn btn-primary">
-                ADD TEAM INPUT EXAMPLE
-              </button>
-            </div>
-          </form>
-
-          <div className="card">
-              <div className="card-body">
-                <h5 className="card-title">
-                  Squadra: <b>{risultati.squad}</b>
-                </h5>
-                <h6 className="card-subtitle mb-2 text-muted">
-                  Risultato Minore: {risultati.ris}
-                </h6>
-                <p className="card-subtitle mb-2 text-muted">
-                  Id: {risultati.id}
-                </p>
-              </div>
-            </div>
- <Paper sx={{ width: "100%" }}>
-            <TableContainer sx={{ maxHeight: 740 }}>
-              <Table stickyHeader>
-                <TableHead>
-                  <TableRow>
-                    {columns.map((item) => {
-                      return (
-                        <TableCell key={item.id} style={{ fontWeight: "Bold" }}>
-                          {item.headerName.toUpperCase()}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {squadTable
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row, index) => {
-                      return (
-                        <TableRow
-                          key={row.id}
-                          style={
-                            index % 2
-                              ? { background: "#38abed" }
-                              : { background: "white" }
-                          }
-                        >
-                          <TableCell style={{ fontWeight: "Bold" }}>
-                            {row.id}
-                          </TableCell>
-                          <TableCell
-                            style={{ fontWeight: "Bold" }}
-                            className="row-pointer"
-                            onClick={() => showTeam(row)}
-                          >
-                            {row.squad}
-                          </TableCell>
-                          <TableCell style={{ fontWeight: "Bold" }}>
-                            {row.P}
-                          </TableCell>
-                          <TableCell style={{ fontWeight: "Bold" }}>
-                            {row.W}
-                          </TableCell>
-                          <TableCell style={{ fontWeight: "Bold" }}>
-                            {row.L}
-                          </TableCell>
-                          <TableCell style={{ fontWeight: "Bold" }}>
-                            {row.D}
-                          </TableCell>
-                          <TableCell style={{ fontWeight: "Bold" }}>
-                            {row.F}
-                          </TableCell>
-                          <TableCell style={{ fontWeight: "Bold" }}>
-                            {row.A}
-                          </TableCell>
-                          <TableCell style={{ fontWeight: "Bold" }}>
-                            {row.Punti}
-                          </TableCell>
-                          <TableCell style={{ fontWeight: "Bold" }}>
-                            <button
-                              className="btn-close"
-                              onClick={() => deleteRow(row.id)}
-                            ></button>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 30]}
-              component="div"
-              count={pageCount}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </Paper>
 * Lega football
 Il file football.dat contiene i risultati della premier league inglese. Le colonne con 
 etichetta "F" e "A" contengono il numero totale di goal segnati e subiti da ogni squadra

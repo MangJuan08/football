@@ -19,6 +19,7 @@
     "react-lazy": "^1.1.0",
     "react-router-dom": "^6.1.1",
     "react-scripts": "4.0.3",
+    "use-react-router-breadcrumbs": "^3.0.1",
     "web-vitals": "^1.1.2"
   },
   "scripts": {

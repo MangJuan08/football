@@ -72,7 +72,7 @@ const Weather = () => {
   }, [risultati]);
   return (
     <React.Fragment>
-      <div className="row" style={{ marginTop: "30px" }}>
+      <div className="row" style={{ marginTop: "20px" }}>
         <div className="col-md-12">
           <Paper sx={{ width: "100%" }}>
             <TableContainer sx={{ maxHeight: 740 }}>

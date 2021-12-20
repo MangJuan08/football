@@ -14,3 +14,6 @@
     .rounded-lg-3 { border-radius: .3rem; }
   }
   
+  .nav-link:hover {
+    background-color: black;
+  }
