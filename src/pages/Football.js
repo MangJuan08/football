@@ -100,14 +100,7 @@ const Football = () => {
       axios
         .post(url, {
           id: squadTable.id + 1,
-          squad: team.squad,
-          P: team.P,
-          W: team.W,
-          L: team.L,
-          D: team.D,
-          F: team.F,
-          A: team.A,
-          Punti: team.Punti,
+         ...team
         })
         .then((res) => {
           console.log(res);
