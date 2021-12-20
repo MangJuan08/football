@@ -25,12 +25,12 @@ const DialogAddTeam = ({ handleChange, addTeam, closeDialog, open, team }) => {
                 ></textarea>
                 <br></br>
               </div>
-              <div class="row g-2">
-                <div class="col-md">
-                  <div class="form-floating">
+              <div className="row g-2">
+                <div className="col-md">
+                  <div className="form-floating">
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       id="floatingInputGrid"
                       name="P"
                       onChange={handleChange}
@@ -39,12 +39,12 @@ const DialogAddTeam = ({ handleChange, addTeam, closeDialog, open, team }) => {
                     <label htmlFor="floatingInputGrid">P</label>
                   </div>
                 </div>
-                <div class="col-md">
-                  <div class="form-floating">
-                    <div class="form-floating">
+                <div className="col-md">
+                  <div className="form-floating">
+                    <div className="form-floating">
                       <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         id="floatingInputGrid"
                         name="W"
                         onChange={handleChange}
@@ -55,12 +55,12 @@ const DialogAddTeam = ({ handleChange, addTeam, closeDialog, open, team }) => {
                   </div>
                 </div>
               </div> <br></br>
-              <div class="row g-2">
-                <div class="col-md">
-                  <div class="form-floating">
+              <div className="row g-2">
+                <div className="col-md">
+                  <div className="form-floating">
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       id="floatingInputGrid"
                       name="L"
                       onChange={handleChange}
@@ -69,12 +69,12 @@ const DialogAddTeam = ({ handleChange, addTeam, closeDialog, open, team }) => {
                     <label htmlFor="floatingInputGrid">L</label>
                   </div>
                 </div>
-                <div class="col-md">
-                  <div class="form-floating">
-                    <div class="form-floating">
+                <div className="col-md">
+                  <div className="form-floating">
+                    <div className="form-floating">
                       <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         id="floatingInputGrid"
                         name="D"
                         onChange={handleChange}
@@ -85,12 +85,12 @@ const DialogAddTeam = ({ handleChange, addTeam, closeDialog, open, team }) => {
                   </div>
                 </div>
               </div> <br></br>
-              <div class="row g-2">
-                <div class="col-md">
-                  <div class="form-floating">
+              <div className="row g-2">
+                <div className="col-md">
+                  <div className="form-floating">
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       id="floatingInputGrid"
                       name="F"
                       onChange={handleChange}
@@ -99,12 +99,12 @@ const DialogAddTeam = ({ handleChange, addTeam, closeDialog, open, team }) => {
                     <label htmlFor="floatingInputGrid">F</label>
                   </div>
                 </div>
-                <div class="col-md">
-                  <div class="form-floating">
-                    <div class="form-floating">
+                <div className="col-md">
+                  <div className="form-floating">
+                    <div className="form-floating">
                       <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         id="floatingInputGrid"
                         name="A"
                         onChange={handleChange}
@@ -115,13 +115,13 @@ const DialogAddTeam = ({ handleChange, addTeam, closeDialog, open, team }) => {
                   </div>
                 </div>
               </div><br></br>
-              <div class="row g-2">
-                <div class="col-md">
-                  <div class="form-floating">
-                    <div class="form-floating">
+              <div className="row g-2">
+                <div className="col-md">
+                  <div className="form-floating">
+                    <div className="form-floating">
                       <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         id="floatingInputGrid"
                         name="Punti"
                         onChange={handleChange}

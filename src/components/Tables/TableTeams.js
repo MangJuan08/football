@@ -7,7 +7,8 @@ import TableRow from "@mui/material/TableRow";
 import TableHead from "@mui/material/TableHead";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
-
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 const TableTeams = ({
   columns,
   squadTable,
@@ -29,7 +30,7 @@ const TableTeams = ({
               icon: "save",
               tooltip: "Save User",
               onClick: (event, rowData) => {
-               console.log("hey")
+                console.log("hey");
               },
             },
           ]}
@@ -91,10 +92,9 @@ const TableTeams = ({
                         {row.Punti}
                       </TableCell>
                       <TableCell style={{ fontWeight: "Bold" }}>
-                        <button
-                          className="btn-close"
-                          onClick={() => deleteRow(row.id)}
-                        ></button>
+                        <button className="btn btn-light">
+                          <DeleteIcon onClick={() => deleteRow(row.id)} />
+                        </button>
                       </TableCell>
                     </TableRow>
                   );
