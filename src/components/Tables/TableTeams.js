@@ -22,7 +22,18 @@ const TableTeams = ({
   return (
     <div>
       <Paper sx={{ width: "100%" }}>
-        <TableContainer sx={{ maxHeight: 740 }}>
+        <TableContainer
+          sx={{ maxHeight: 740 }}
+          actions={[
+            {
+              icon: "save",
+              tooltip: "Save User",
+              onClick: (event, rowData) => {
+               console.log("hey")
+              },
+            },
+          ]}
+        >
           <Table stickyHeader>
             <TableHead>
               <TableRow>

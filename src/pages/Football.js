@@ -2,8 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import CardResult from "../components/Cards/CardResult";
 import TableTeams from "../components/Tables/TableTeams";
-import "./table.css";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import AddIcon from "@mui/icons-material/Add";
 import DialogAddTeam from "../components/Dialog/DialogAddTeam";
+
+import { Link } from "react-router-dom";
+import "./table.css";
 
 const columns = [
   { field: "id", headerName: "id", width: 70 },
@@ -15,7 +21,7 @@ const columns = [
   { field: "F", headerName: "F", width: 130 },
   { field: "A", headerName: "A", width: 130 },
   { field: "Punti", headerName: "Punti", width: 130 },
-  { field: "Delete", headerName: "Delete", width: 130 },
+  { field: "Delete", headerName: "Actions", width: 130 },
 ];
 
 const url = "http://localhost:3000/teams";
@@ -26,14 +32,14 @@ const Football = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [pageCount, setPageCount] = useState(0);
   const [team, setTeam] = useState({
-    squad:'',
-    P:0,
-    W:0,
-    L:0,
-    D:0,
-    F:0,
-    Punti:0,
-    A:0
+    squad: "",
+    P: 0,
+    W: 0,
+    L: 0,
+    D: 0,
+    F: 0,
+    Punti: 0,
+    A: 0,
   });
   const [open, isShow] = useState(false);
   const [risultati, setRisultati] = useState({
@@ -83,39 +89,36 @@ const Football = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setTeam({...team, [name]:value});
-    console.log(team)
+    setTeam({ ...team, [name]: value });
+    console.log(team);
   };
 
   const addTeam = (e) => {
     e.preventDefault();
-    console.log(team)
+    console.log(team);
     if (team.squad && team.P && team.W) {
       axios
-      .post(url, {
-      id:squadTable.id+1,
-      squad:team.squad,
-      P:team.P,
-      W:team.W,
-      L:team.L,
-      D:team.D,
-      F:team.F,
-      A:team.A,
-      Punti:team.Punti
-      })
-      .then((res) => {
-        console.log(res);
-        fetch();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    }
-    else {
+        .post(url, {
+          id: squadTable.id + 1,
+          squad: team.squad,
+          P: team.P,
+          W: team.W,
+          L: team.L,
+          D: team.D,
+          F: team.F,
+          A: team.A,
+          Punti: team.Punti,
+        })
+        .then((res) => {
+          console.log(res);
+          fetch();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
       alert("failed adding team");
     }
-   
   };
 
   const deleteRow = (id) => {
@@ -162,8 +165,18 @@ const Football = () => {
     <React.Fragment>
       <div className="row" style={{ marginTop: "20px" }}>
         <div className="col-md-12">
-          <h1 style={{ textAlign: "center" }}>TEAM TABLE</h1>
           <br></br>
+          <br></br>
+          <AppBar position="static">
+            <Toolbar>
+              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                TEAM TABLE
+              </Typography>
+              <button className="btn btn-dark" onClick={showDialog}>
+                <AddIcon />{" "}
+              </button>
+            </Toolbar>
+          </AppBar>
           <TableTeams
             columns={columns}
             page={page}
@@ -192,12 +205,17 @@ const Football = () => {
       </div>
       <div className="row" style={{ marginTop: "30px" }}>
         <div className="col-md-2">
-          <button type="button" onClick={showDialog}>
-            view add team
-          </button>
-
+          <Link to="/" className="nav-link">
+            Home
+          </Link>
           {open ? (
-            <DialogAddTeam handleChange={handleChange} addTeam={addTeam} closeDialog={closeDialog} open={open} team={team}/>
+            <DialogAddTeam
+              handleChange={handleChange}
+              addTeam={addTeam}
+              closeDialog={closeDialog}
+              open={open}
+              team={team}
+            />
           ) : (
             ""
           )}
