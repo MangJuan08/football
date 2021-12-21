@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Appbar from "./components/Appbar/Appbar";
-import Loading from "./components/Loading";
+import Loading from "./components/LazyLoading/Loading";
 const Football = React.lazy(() => import("./pages/Football"));
 const Homepage = React.lazy(() => import("./pages/Homepage"));
 const Weather = React.lazy(() => import("./pages/Weather"));
